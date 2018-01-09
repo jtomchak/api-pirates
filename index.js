@@ -2,6 +2,7 @@ const path = require("path");
 const express = require("express");
 
 const app = express();
+app.use(require("body-parser")());
 
 const handlebars = require("express-handlebars").create({
   defaultLayout: "main"
@@ -23,12 +24,21 @@ app.get("/about", (req, res) => {
   res.render("about");
 });
 
-app.get("/ship", (req, res) => {
+app.get("/ships", (req, res) => {
   res.render("ship");
 });
 
 app.get("/treasure", (req, res) => {
   res.render("treasure");
+});
+
+app.get("/pirate", (req, res) => {
+  res.render("pirate-form");
+});
+
+app.post("/pirate", (req, res) => {
+  console.log(req.body);
+  res.send("Thanks");
 });
 
 app.use((req, res) => {
