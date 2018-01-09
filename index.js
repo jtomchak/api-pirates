@@ -1,9 +1,25 @@
 const path = require("path");
 const express = require("express");
+const sqlite = require("sqlite3").verbose();
 
 const app = express();
-app.use(require("body-parser")());
 
+//Connect to your DB
+const db = new sqlite.Database("./deadSeas.sqlite", err => {
+  if (err) {
+    return console.error(err.message);
+  }
+  console.log("........Connected to The DeadSea, arrrrrrgh.");
+});
+
+//Let's run a query to confirm
+const query = `SELECT * from Pirates`;
+db.each(query, (err, row) => {
+  if (err) throw err;
+  console.log(row);
+});
+
+app.use(require("body-parser")());
 const handlebars = require("express-handlebars").create({
   defaultLayout: "main"
 });
