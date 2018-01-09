@@ -17,3 +17,14 @@ const db = new sqlite.Database("./deadSeas.sqlite", err => {
   console.log("........Connected to The DeadSea, arrrrrrgh.");
 });
 ```
+
+* Double check the query!!!
+
+```js
+//Let's run a query to confirm
+const query = `SELECT * from Pirates`;
+db.each(query, (err, row) => {
+  if (err) throw err;
+  console.log(row);
+});
+```
