@@ -1,10 +1,10 @@
 <h1>Checkout Ye Pirates</h1>
 
 {{!-- If startment runs if variable exists or isn't assigned to an eempty value --}} {{#if pirates}}
-<ul>
+<ul style='list-style:circle; padding:40px 10px'>
   {{!-- In code below "each" interates over the "pirates" property and "this.nick_name" refers to the property inside the array
   of objects --}} {{#each pirates}}
-  <li>{{this.nick_name}}</li>
+  <li>{{this.family_name}} *the* {{this.nick_name}}</li>
   {{/each}}
 </ul>
 {{!-- Else startment runs if DOESN'T variable exist or IS assigned to an eempty value --}} {{else}}
