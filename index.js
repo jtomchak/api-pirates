@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/about", (req, res) => {
-  res.sendFile(__dirname + "/public/about.html");
+  res.render("about");
 });
 
 app.get("/ship", (req, res) => {
@@ -28,13 +28,11 @@ app.get("/ship", (req, res) => {
 });
 
 app.get("/treasure", (req, res) => {
-  res.sendFile(__dirname + "/public/treasure.html");
+  res.render("treasure");
 });
 
 app.use((req, res) => {
-  res.type("text/plain");
-  res.status(404);
-  res.send("404 - Not Found");
+  res.render("404");
 });
 
 app.listen(app.get("port"), () => {
