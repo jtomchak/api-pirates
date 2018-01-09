@@ -1,7 +1,4 @@
-const http = require("http"); //CommonJS
-const fs = require("fs");
 const path = require("path");
-
 const express = require("express");
 
 const app = express();
@@ -9,6 +6,9 @@ const app = express();
 const handlebars = require("express-handlebars").create({
   defaultLayout: "main"
 });
+//const handlebars = require('express-handlebars');
+//handlebars.create({defaultLayout: 'main'});
+
 app.engine("handlebars", handlebars.engine);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "handlebars");
