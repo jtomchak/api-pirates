@@ -12,13 +12,6 @@ const db = new sqlite.Database("./deadSeas.sqlite", err => {
   console.log("........Connected to The DeadSea, arrrrrrgh.");
 });
 
-//Let's run a query to confirm
-const query = `SELECT * from Pirates`;
-db.each(query, (err, row) => {
-  if (err) throw err;
-  console.log(row);
-});
-
 app.use(require("body-parser")());
 const handlebars = require("express-handlebars").create({
   defaultLayout: "main"
@@ -36,7 +29,13 @@ app.set("port", process.env.PORT || 3000);
 const piratesController = (req, res, next) => {
   console.log(req.body);
   //This is where we would 'Insert into DB'
-  res.render("pirates", { pirate: req.body }); //template and data thing/object
+
+  //Now get all the pirates out of the db to present!
+  const query = `SELECT * from Pirates`;
+  db.all(query, (err, data) => {
+    if (err) next(err);
+    res.render("pirates", { pirates: data }); //template and data thing/object
+  });
 };
 
 app.get("/", (req, res) => {
@@ -61,9 +60,7 @@ app.get("/pirate", (req, res) => {
 
 app.post("/pirate", piratesController);
 
-app.get("/pirates", (req, res) => {
-  res.render("pirates");
-});
+app.get("/pirates", piratesController);
 
 app.use((req, res) => {
   res.render("404");

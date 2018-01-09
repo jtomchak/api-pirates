@@ -1,11 +1,14 @@
-<h1>You've POSTED a Pirate!!!</h1>
-{{#if pirate}} Name : {{pirate.sir_name}} </br>
-Skill : {{pirate.skill}} </br>
-Nick Name : {{pirate.nick_name}} </br>
+<h1>Checkout Ye Pirates</h1>
 
-
-{{else}}
+{{!-- If startment runs if variable exists or isn't assigned to an eempty value --}} {{#if pirates}}
+<ul>
+  {{!-- In code below "each" interates over the "pirates" property and "this.nick_name" refers to the property inside the array
+  of objects --}} {{#each pirates}}
+  <li>{{this.nick_name}}</li>
+  {{/each}}
+</ul>
+{{!-- Else startment runs if DOESN'T variable exist or IS assigned to an eempty value --}} {{else}}
 <p>
-  <em>You did not send me a pirate.FAIL</em>
+  <em>All the pirates have walked the plank. Arg!!</em>
 </p>
 {{/if}}
