@@ -16,6 +16,13 @@ app.set("view engine", "handlebars");
 
 app.set("port", process.env.PORT || 3000);
 
+//Custom Middleware
+const piratesController = (req, res, next) => {
+  console.log(req.body);
+  //This is where we would 'Insert into DB'
+  res.render("pirates", { pirate: req.body }); //template and data thing/object
+};
+
 app.get("/", (req, res) => {
   res.render("index");
 });
@@ -36,9 +43,10 @@ app.get("/pirate", (req, res) => {
   res.render("pirate-form");
 });
 
-app.post("/pirate", (req, res) => {
-  console.log(req.body);
-  res.send("Thanks");
+app.post("/pirate", piratesController);
+
+app.get("/pirates", (req, res) => {
+  res.render("pirates");
 });
 
 app.use((req, res) => {
