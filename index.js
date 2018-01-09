@@ -5,6 +5,8 @@ const path = require("path");
 const express = require("express");
 
 const app = express();
+// parse out body posts
+app.use(require("body-parser")());
 
 const handlebars = require("express-handlebars").create({
   defaultLayout: "main"
@@ -14,6 +16,12 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "handlebars");
 
 app.set("port", process.env.PORT || 3000);
+
+//Middleware
+const piratesController = (req, res, next) => {
+  console.log(req.body);
+  res.render("success", { pirate: req.body });
+};
 
 app.get("/", (req, res) => {
   res.render("index");
@@ -28,8 +36,18 @@ app.get("/ship", (req, res) => {
 });
 
 app.get("/treasure", (req, res) => {
-  res.sendFile(__dirname + "/public/treasure.html");
+  res.render("treasure");
 });
+
+app.get("/success", (req, res) => {
+  res.render("success");
+});
+
+app.get("/pirates", (req, res) => {
+  res.render("pirates");
+});
+
+app.post("/pirates", piratesController);
 
 app.use((req, res) => {
   res.type("text/plain");
