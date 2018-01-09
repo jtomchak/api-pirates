@@ -24,7 +24,7 @@ app.get("/about", (req, res) => {
   res.render("about");
 });
 
-app.get("/ships", (req, res) => {
+app.get("/ship", (req, res) => {
   res.render("ship");
 });
 
