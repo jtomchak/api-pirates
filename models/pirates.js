@@ -17,6 +17,9 @@ module.exports = (sequelize, DataTypes) => {
       date_of_death: DataTypes.INTEGER
     },
     {
+      timestamps: false
+    },
+    {
       classMethods: {
         associate: function(models) {
           // associations can be defined here
