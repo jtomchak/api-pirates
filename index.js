@@ -34,10 +34,10 @@ const piratesController = (req, res, next) => {
       }
     );
   //Now get all the pirates out of the db to present!
-  const query = `SELECT * from Pirates`;
-  db.all(query, (err, data) => {
-    if (err) next(err);
-    res.render("pirates", { pirates: data }); //template and data thing/object
+  models.Pirates.findAll({}).then(function(data) {
+    res.render("pirates", {
+      pirates: data
+    });
   });
 };
 
