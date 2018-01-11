@@ -86,3 +86,16 @@ module.exports = {
   config: path.resolve("config", "config.js")
 };
 ```
+
+# Auth
+
+`npm install passport passport-facebook`
+
+1.
+
+```js
+const passport = require("passport");
+const FacebookStrategy = require("passport-facebook").Strategy;
+```
+
+2.

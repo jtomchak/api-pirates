@@ -2,8 +2,29 @@ const path = require("path");
 const express = require("express");
 const Sequelize = require("sequelize");
 var models = require("./models");
+var passport = require("passport");
 
 const app = express();
+
+// Use application-level middleware for common functionality, including
+// logging, parsing, and session handling.
+app.use(require("morgan")("combined"));
+app.use(require("cookie-parser")());
+app.use(require("body-parser").urlencoded({ extended: true }));
+app.use(
+  require("express-session")({
+    secret: "keyboard cat",
+    resave: true,
+    saveUninitialized: true
+  })
+);
+
+// Configuring Passport
+app.use(passport.initialize());
+
+// Initialize Passport
+var initPassport = require("./passport/init");
+initPassport(passport);
 
 app.use(require("body-parser")());
 const handlebars = require("express-handlebars").create({
@@ -48,16 +69,12 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-app.get("/about", (req, res) => {
-  res.render("about");
-});
-
-app.get("/ship", (req, res) => {
-  res.render("ship");
-});
-
-app.get("/treasure", (req, res) => {
-  res.render("treasure");
+app.get("/users", (req, res) => {
+  models.User.findAll().then(function(data) {
+    res.render("users", {
+      users: data
+    });
+  });
 });
 
 app.get("/pirate", (req, res) => {
@@ -67,6 +84,17 @@ app.get("/pirate", (req, res) => {
 app.post("/pirate", piratesController);
 
 app.get("/pirates", piratesController);
+
+// register Facebook routes
+app.get("/login/facebook", passport.authenticate("facebook"));
+
+app.get(
+  "/login/facebook/callback",
+  passport.authenticate("facebook", { failureRedirect: "/login" }),
+  function(req, res) {
+    res.redirect("/pirates");
+  }
+);
 
 app.use((req, res) => {
   res.render("404");
