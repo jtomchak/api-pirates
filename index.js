@@ -21,20 +21,23 @@ const piratesController = (req, res, next) => {
   console.log(req.body);
   //This is where we would 'Insert into DB'
   if (req.body.sir_name)
-    db.run(
-      `INSERT INTO Pirates(family_name, nick_name, birth_country, worth, date_of_death) VALUES (
-      '${req.body.sir_name}', 
-      '${req.body.nick_name}',
-      '${req.body.birth_country}',
-      '${req.body.worth}',
-      '${req.body.death}'
-    )`,
-      (err, row) => {
-        if (err) console.log(err);
-      }
-    );
+    models.Pirates.create({
+      family_name: req.body.sir_name,
+      nick_name: req.body.nick_name,
+      birth_country: req.body.birth_country,
+      worth: req.body.worth,
+      date_of_death: req.body.death
+    })
+      .then(newPirate => {
+        console.log(
+          `New Pirate ${newPirate.nick_name}, with id ${
+            newPirate.pirate_id
+          } has been created.`
+        );
+      })
+      .catch(err => console.log(err));
   //Now get all the pirates out of the db to present!
-  models.Pirates.findAll({}).then(function(data) {
+  models.Pirates.findAll().then(function(data) {
     res.render("pirates", {
       pirates: data
     });
