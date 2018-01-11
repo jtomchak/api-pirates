@@ -35,6 +35,7 @@ const handlebars = require("express-handlebars").create({
 app.engine("handlebars", handlebars.engine);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "handlebars");
+app.use(express.static(path.join(__dirname, "/public")));
 
 app.set("port", process.env.PORT || 3000);
 
@@ -67,6 +68,10 @@ const piratesController = (req, res, next) => {
 };
 
 app.get("/", piratesController);
+
+app.get("/login", (req, res) => {
+  res.render("login");
+});
 
 app.get("/users", (req, res) => {
   models.User.findAll().then(function(data) {
