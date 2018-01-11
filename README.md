@@ -195,4 +195,17 @@ module.exports = function(passport) {
 };
 ```
 
-6.
+6. Then we should have some routes like so...
+
+```js
+// register Facebook routes index.js
+app.get("/login/facebook", passport.authenticate("facebook"));
+
+app.get(
+  "/login/facebook/callback",
+  passport.authenticate("facebook", { failureRedirect: "/pirates" }),
+  function(req, res) {
+    res.redirect("/users");
+  }
+);
+```
