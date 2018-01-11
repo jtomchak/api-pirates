@@ -89,13 +89,110 @@ module.exports = {
 
 # Auth
 
-`npm install passport passport-facebook`
+`npm install express-session passport passport-facebook cookie-parser morgan`
 
-1.
+1. Create a User model using `node_modules/.bin/sequelize model:create --name User --attributes name:String` the other properties are to be like so
+
+```js
+var User = sequelize.define(
+  "User",
+  {
+    user_id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    authId: DataTypes.INTEGER,
+    name: DataTypes.STRING,
+    email: DataTypes.STRING,
+    role: DataTypes.STRING
+  },
+  {
+    classMethods: {
+      associate: function(models) {
+        // associations can be defined here
+      }
+    }
+  }
+);
+```
 
 ```js
 const passport = require("passport");
 const FacebookStrategy = require("passport-facebook").Strategy;
 ```
 
-2.
+2. Go to Facebook and get an ID and Secret, Don't share these with anyone. See LMS for instructions on this one.
+
+3. Create fb.js file and put this in....this is in the root of the project.
+
+```js
+// facebook app settings - fb.js
+module.exports = {
+  appID: "YOURID",
+  appSecret: "YOURSECRET",
+  callbackUrl: "http://localhost:3000/login/facebook/callback"
+};
+```
+
+4. Need to create a passport folder, and add init.js with this.
+
+```js
+//init.js in ("./passport")
+var facebook = require("./facebook");
+var User = require("../models/user");
+
+module.exports = function(passport) {
+  // Passport needs to be able to serialize and deserialize users to support persistent login sessions
+  passport.serializeUser(function(user, done) {
+    console.log("serializing user: ");
+    console.log(user);
+    done(null, user._id);
+  });
+
+  passport.deserializeUser(function(id, done) {
+    User.findById(id, function(err, user) {
+      console.log("deserializing user:", user);
+      done(err, user);
+    });
+  });
+
+  // Setting up Passport Strategies for Facebook and Twitter
+  facebook(passport);
+};
+```
+
+5. We need in the same folder a 'facebook.js'
+
+```js
+//facebook.js
+var FacebookStrategy = require("passport-facebook").Strategy;
+var models = require("../models");
+var fbConfig = require("../fb.js");
+
+module.exports = function(passport) {
+  passport.use(
+    "facebook",
+    new FacebookStrategy(
+      {
+        clientID: fbConfig.appID,
+        clientSecret: fbConfig.appSecret,
+        callbackURL: fbConfig.callbackUrl,
+        profileFields: ["id", "displayName", "emails"]
+      },
+
+      // facebook will send back the tokens and profile
+      function(access_token, refresh_token, profile, done) {
+        console.log("profile", profile);
+        models.User.create({
+          authId: profile.id,
+          name: profile.displayName,
+          role: "user"
+        });
+      }
+    )
+  );
+};
+```
+
+6.

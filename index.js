@@ -90,9 +90,9 @@ app.get("/login/facebook", passport.authenticate("facebook"));
 
 app.get(
   "/login/facebook/callback",
-  passport.authenticate("facebook", { failureRedirect: "/login" }),
+  passport.authenticate("facebook", { failureRedirect: "/pirates" }),
   function(req, res) {
-    res.redirect("/pirates");
+    res.redirect("/users");
   }
 );
 
