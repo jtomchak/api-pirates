@@ -1,10 +1,10 @@
 <h1>Users</h1>
 
 {{!-- If startment runs if variable exists or isn't assigned to an eempty value --}} {{#if users}}
-<ul style='list-style:circle; padding:40px 10px'>
+<ul class="list-group" style='list-style:circle; padding:40px 10px'>
   {{!-- In code below "each" interates over the "pirates" property and "this.nick_name" refers to the property inside the array
   of objects --}} {{#each users}}
-  <li>{{this.name}} </li>
+  <li class="list-group-item">{{this.name}} </li>
   {{/each}}
 </ul>
 {{!-- Else startment runs if DOESN'T variable exist or IS assigned to an eempty value --}} {{else}}

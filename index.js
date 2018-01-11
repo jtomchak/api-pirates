@@ -28,7 +28,8 @@ initPassport(passport);
 
 app.use(require("body-parser")());
 const handlebars = require("express-handlebars").create({
-  defaultLayout: "main"
+  defaultLayout: "main",
+  partialsPath: "views/partials"
 });
 
 app.engine("handlebars", handlebars.engine);
@@ -65,9 +66,7 @@ const piratesController = (req, res, next) => {
   });
 };
 
-app.get("/", (req, res) => {
-  res.render("index");
-});
+app.get("/", piratesController);
 
 app.get("/users", (req, res) => {
   models.User.findAll().then(function(data) {

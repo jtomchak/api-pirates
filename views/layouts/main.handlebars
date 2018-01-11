@@ -3,13 +3,19 @@
 
 <head>
   <meta charset="utf-8">
+  <!---CDN Links-->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
   <title>Pirates App</title>
 </head>
 
 <body>
+  <div class="container">
 
-  {{{body}}}
-
+    {{! Import the contents of header.html from partials}} {{> header}} {{! Every view gets inserted here }} {{{body}}}
+  </div>
+  {{! Import the contents of footer.html from partials}} {{> footer}}
 </body>
 
 </html>
