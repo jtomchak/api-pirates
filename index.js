@@ -14,8 +14,7 @@ app.use(require("body-parser").urlencoded({ extended: true }));
 app.use(
   require("express-session")({
     secret: "keyboard cat",
-    name: "pirate_super_cookie_monster",
-    cookie: { maxAge: 60000 }
+    name: "pirate_super_cookie_monster"
   })
 );
 
@@ -47,7 +46,7 @@ const isAuth = (req, res, next) => {
   console.log("=======Auth Check");
   if (req.user) {
     return next();
-  } else return res.render("profile", {});
+  } else return res.render("login", {});
 };
 const piratesController = (req, res, next) => {
   console.log(req.body);
@@ -98,7 +97,7 @@ app.get("/profile", isAuth, (req, res) => {
   });
 });
 
-app.get("/pirate", (req, res) => {
+app.get("/pirate", isAuth, (req, res) => {
   res.render("pirate-form");
 });
 
@@ -116,7 +115,7 @@ app.get(
   "/login/facebook/callback",
   passport.authenticate("facebook", { failureRedirect: "/pirates" }),
   function(req, res) {
-    res.redirect("/users");
+    res.redirect("/profile");
   }
 );
 

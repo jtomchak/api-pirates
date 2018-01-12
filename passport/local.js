@@ -5,7 +5,7 @@ module.exports = function(passport) {
   passport.use(
     "local",
     new LocalStrategy(function(username, password, cb) {
-      db.users.findByUsername(username, function(err, user) {
+      models.Users.findByUsername(username, function(err, user) {
         if (err) {
           return cb(err);
         }
