@@ -42,12 +42,16 @@ let fb_auth = passport.authenticate("facebook", { failureRedirect: "/login" });
 let local_auth = passport.authenticate("local", { failureRedirect: "/login" });
 
 //Custom Middleware
+
+/* this checks to see passport has deserialized 
+and appended the user to the request */
 const isAuth = (req, res, next) => {
   console.log("=======Auth Check");
   if (req.user) {
     return next();
   } else return res.render("login", {});
 };
+
 const piratesController = (req, res, next) => {
   console.log(req.body);
   console.log(req.isAuthenticated());
@@ -80,6 +84,11 @@ app.get("/", piratesController);
 
 app.get("/login", (req, res) => {
   res.render("login");
+});
+
+app.get("/logout", function(req, res) {
+  req.logout();
+  res.redirect("/");
 });
 
 app.get("/users", (req, res) => {
