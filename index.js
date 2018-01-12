@@ -15,7 +15,8 @@ app.use(
   require("express-session")({
     secret: "keyboard cat",
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: { maxAge: 60000 }
   })
 );
 
@@ -38,10 +39,12 @@ app.set("view engine", "handlebars");
 app.use(express.static(path.join(__dirname, "/public")));
 
 app.set("port", process.env.PORT || 3000);
+let auth = passport.authenticate("facebook", { failureRedirect: "/login" });
 
 //Custom Middleware
 const piratesController = (req, res, next) => {
   console.log(req.body);
+  console.log(req.isAuthenticated());
   //This is where we would 'Insert into DB'
   if (req.body.sir_name)
     models.Pirates.create({
@@ -81,6 +84,11 @@ app.get("/users", (req, res) => {
   });
 });
 
+app.get("/profile", (req, res) => {
+  console.log(req.isAuthenticated());
+  res.send({ title: "HELLO" });
+});
+
 app.get("/pirate", (req, res) => {
   res.render("pirate-form");
 });
@@ -90,7 +98,10 @@ app.post("/pirate", piratesController);
 app.get("/pirates", piratesController);
 
 // register Facebook routes
-app.get("/login/facebook", passport.authenticate("facebook"));
+app.get(
+  "/login/facebook",
+  passport.authenticate("facebook", { session: true, failureRedirect: "/" })
+);
 
 app.get(
   "/login/facebook/callback",
