@@ -22,8 +22,8 @@ module.exports = function(passport) {
           defaults: {
             role: "user"
           }
-        }).spread((unit, created) => {
-          done(null, unit);
+        }).spread((user, created) => {
+          done(null, user);
         });
       }
     )
