@@ -15,12 +15,16 @@ module.exports = function(passport) {
 
       // facebook will send back the tokens and profile
       function(access_token, refresh_token, profile, done) {
-        console.log("profile", profile);
-        models.User.create({
-          authId: profile.id,
-          name: profile.displayName,
-          role: "user"
-        }).then(user => done());
+        models.User.findOrCreate({
+          where: {
+            authId: profile.id
+          },
+          defaults: {
+            role: "user"
+          }
+        }).spread((unit, created) => {
+          done(null, unit);
+        });
       }
     )
   );
