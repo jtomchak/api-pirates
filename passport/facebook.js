@@ -20,10 +20,12 @@ module.exports = function(passport) {
             authId: profile.id
           },
           defaults: {
-            role: "user"
+            role: "user",
+            name: profile.displayName
           }
-        }).spread((unit, created) => {
-          done(null, unit);
+        }).spread((user, created) => {
+          if (!user) done(user, null);
+          done(null, user);
         });
       }
     )
