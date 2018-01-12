@@ -23,9 +23,8 @@ module.exports = function(passport) {
             role: "user",
             name: profile.displayName
           }
-        }).spread((user, created) => {
-          if (!user) done(user, null);
-          done(null, user);
+        }).spread((unit, created) => {
+          done(null, unit);
         });
       }
     )
