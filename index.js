@@ -14,14 +14,14 @@ app.use(require("body-parser").urlencoded({ extended: true }));
 app.use(
   require("express-session")({
     secret: "keyboard cat",
-    resave: true,
-    saveUninitialized: true,
+    name: "pirate_super_cookie_monster",
     cookie: { maxAge: 60000 }
   })
 );
 
 // Configuring Passport
 app.use(passport.initialize());
+app.use(passport.session());
 
 // Initialize Passport
 var initPassport = require("./passport/init");
@@ -39,9 +39,16 @@ app.set("view engine", "handlebars");
 app.use(express.static(path.join(__dirname, "/public")));
 
 app.set("port", process.env.PORT || 3000);
-let auth = passport.authenticate("facebook", { failureRedirect: "/login" });
+let fb_auth = passport.authenticate("facebook", { failureRedirect: "/login" });
+let local_auth = passport.authenticate("local", { failureRedirect: "/login" });
 
 //Custom Middleware
+const isAuth = (req, res, next) => {
+  console.log("=======Auth Check");
+  if (req.user) {
+    return next();
+  } else return res.render("profile", {});
+};
 const piratesController = (req, res, next) => {
   console.log(req.body);
   console.log(req.isAuthenticated());
@@ -84,9 +91,11 @@ app.get("/users", (req, res) => {
   });
 });
 
-app.get("/profile", (req, res) => {
+app.get("/profile", isAuth, (req, res) => {
   console.log(req.isAuthenticated());
-  res.send({ title: "HELLO" });
+  res.render("profile", {
+    user: req.user
+  });
 });
 
 app.get("/pirate", (req, res) => {

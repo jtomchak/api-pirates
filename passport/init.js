@@ -1,11 +1,11 @@
 var facebook = require("./facebook");
+var local = require("./local");
 var models = require("../models");
 
 module.exports = function(passport) {
   // Passport needs to be able to serialize and deserialize users to support persistent login sessions
   passport.serializeUser(function(user, done) {
     console.log("============== serializing user: ");
-    console.log(user);
     done(null, user.user_id);
   });
 
@@ -15,14 +15,14 @@ module.exports = function(passport) {
       where: {
         user_id: id
       }
-        .then(user => {
-          console.log("deserializing user:", user);
-          done(null, user);
-        })
-        .catch(err => done(err, null))
-    });
+    })
+      .then(user => {
+        done(null, user);
+      })
+      .catch(err => done(err, null));
   });
 
-  // Setting up Passport Strategies for Facebook and Twitter
+  // Setting up Passport Strategies for Facebook and Local
   facebook(passport);
+  local(passport);
 };
