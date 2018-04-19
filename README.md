@@ -91,7 +91,7 @@ module.exports = {
 
 `npm install express-session passport passport-facebook cookie-parser morgan`
 
-1. Create a User model using `node_modules/.bin/sequelize model:create --name User --attributes name:String` the other properties are to be like so
+1.  Create a User model using `node_modules/.bin/sequelize model:create --name User --attributes name:String` the other properties are to be like so
 
 ```js
 var User = sequelize.define(
@@ -122,9 +122,9 @@ const passport = require("passport");
 const FacebookStrategy = require("passport-facebook").Strategy;
 ```
 
-2. Go to Facebook and get an ID and Secret, Don't share these with anyone. See LMS for instructions on this one.
+2.  Go to Facebook and get an ID and Secret, Don't share these with anyone. See LMS for instructions on this one.
 
-3. Create fb.js file and put this in....this is in the root of the project.
+3.  Create fb.js file and put this in....this is in the root of the project.
 
 ```js
 // facebook app settings - fb.js
@@ -135,7 +135,7 @@ module.exports = {
 };
 ```
 
-4. Need to create a passport folder, and add init.js with this.
+4.  Need to create a passport folder, and add init.js with this.
 
 ```js
 //init.js in ("./passport")
@@ -162,7 +162,7 @@ module.exports = function(passport) {
 };
 ```
 
-5. We need in the same folder a 'facebook.js'
+5.  We need in the same folder a 'facebook.js'
 
 ```js
 //facebook.js
@@ -195,7 +195,7 @@ module.exports = function(passport) {
 };
 ```
 
-6. Then we should have some routes like so...
+6.  Then we should have some routes like so...
 
 ```js
 // register Facebook routes index.js
@@ -209,3 +209,42 @@ app.get(
   }
 );
 ```
+
+7.  Auth for github. We'll need `npm install passport-github`and we'll follow this guide [passport-github](https://github.com/jaredhanson/passport-github)
+
+* Then we'll need to fill out a passport github for initialization.
+
+```js
+passport.use(
+  "github",
+  new GithubStrategy(
+    {
+      clientID: ghConfig.clientId,
+      clientSecret: ghConfig.clientSecret,
+      callbackURL: ghConfig.callbackUrl
+    },
+
+    // github will send back the tokens and profile
+    function(access_token, refresh_token, profile, done) {
+      models.User.findOne({ where: { authId: profile.id } })
+        .then(user => {
+          if (!user) {
+            let newUser = models.User.create({
+              authId: profile.id,
+              name: profile.displayName,
+              role: "user"
+            });
+            done(null, newUser);
+          }
+          done(null, user);
+        })
+        .catch(err => {
+          console.log(err);
+          return done(err, null);
+        });
+    }
+  )
+);
+```
+
+8.  Then we need to set up the auth route **AND** the callback route, or where github should go when it's verified by the user. In our case that's `'/auth/github/callback'`

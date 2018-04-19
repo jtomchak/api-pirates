@@ -30,12 +30,6 @@ module.exports = function(passport) {
             console.log(err);
             return done(err, null);
           });
-
-        // User.create({
-        //   authId: authId,
-        //   name: profile.displayName,
-        //   role: "user"
-        // });
       }
     )
   );
