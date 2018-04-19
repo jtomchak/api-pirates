@@ -39,6 +39,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 app.set("port", process.env.PORT || 3000);
 let fb_auth = passport.authenticate("facebook", { failureRedirect: "/login" });
+let gh_auth = passport.authenticate("github", { failureRedirect: "/login" });
 let local_auth = passport.authenticate("local", { failureRedirect: "/login" });
 
 //Custom Middleware
@@ -66,9 +67,7 @@ const piratesController = (req, res, next) => {
     })
       .then(newPirate => {
         console.log(
-          `New Pirate ${newPirate.nick_name}, with id ${
-            newPirate.pirate_id
-          } has been created.`
+          `New Pirate ${newPirate.nick_name}, with id ${newPirate.pirate_id} has been created.`
         );
       })
       .catch(err => console.log(err));
@@ -128,6 +127,16 @@ app.get(
   }
 );
 
+//register Github route
+app.get("/login/github", passport.authenticate("github", { session: true, failureRedirect: "/" }));
+app.get(
+  "/login/github/callback",
+  passport.authenticate("github", { failureRedirect: "/pirates" }),
+  function(req, res) {
+    res.redirect("/profile");
+  }
+);
+
 app.use((req, res) => {
   res.render("404");
 });
@@ -137,9 +146,7 @@ app.use((req, res) => {
 models.sequelize.sync().then(function() {
   app.listen(app.get("port"), () => {
     console.log(
-      "Express started on http://localhost:" +
-        app.get("port") +
-        "; press Ctrl-C to terminate."
+      "Express started on http://localhost:" + app.get("port") + "; press Ctrl-C to terminate."
     );
   });
 });

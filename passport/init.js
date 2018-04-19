@@ -1,4 +1,5 @@
 var facebook = require("./facebook");
+var github = require("./github");
 var local = require("./local");
 var models = require("../models");
 
@@ -24,5 +25,6 @@ module.exports = function(passport) {
 
   // Setting up Passport Strategies for Facebook and Local
   facebook(passport);
+  github(passport);
   local(passport);
 };
