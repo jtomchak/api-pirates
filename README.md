@@ -212,6 +212,9 @@ app.get(
 
 7.  Auth for github. We'll need `npm install passport-github`and we'll follow this guide [passport-github](https://github.com/jaredhanson/passport-github)
 
+* **WE NEED** a clientId and clientSecert from Github head to dev settings and fill this out [LINK](https://github.com/settings/applications/new)
+  ![Imgur](https://i.imgur.com/mFsZEQS.png)
+
 * Then we'll need to fill out a passport github for initialization.
 
 ```js
