@@ -220,7 +220,7 @@ app.get(
 
 ![Imgur](https://i.imgur.com/6PN1Wzz.png)
 
-* Then we'll need to fill out a passport github for initialization.
+* Then we'll need to fill out a passport github for initialization. Using the clientId and the clientSecrets that we got when we signed up our app. _Pirates don't share their id's, secrets, or gold!_
 
 ```js
 passport.use(
