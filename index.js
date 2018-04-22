@@ -113,20 +113,6 @@ app.post("/pirate", piratesController);
 
 app.get("/pirates", piratesController);
 
-// register Facebook routes
-app.get(
-  "/login/facebook",
-  passport.authenticate("facebook", { session: true, failureRedirect: "/" })
-);
-
-app.get(
-  "/login/facebook/callback",
-  passport.authenticate("facebook", { failureRedirect: "/pirates" }),
-  function(req, res) {
-    res.redirect("/profile");
-  }
-);
-
 //register Github route
 app.get("/login/github", passport.authenticate("github", { session: true, failureRedirect: "/" }));
 app.get(
