@@ -1,3 +1,55 @@
+# Getting Started
+
+* Create an empty project folder `api-pirates` and make sure to in that directory
+* Then `npm init -y`
+* we'll need some packages right out of the gate
+  `npm install express express-handlebars nodemon body-parser`
+* nodemon is a library that is going to start up our app like running `node`, the difference is it will watch our files and restart our node server for us!! That will save us some headache.
+* lets create an `index.js` and start building our server.
+
+```js
+//index.js
+const path = require("path");
+const express = require("express");
+
+const app = express(); //init our express app
+//body-parser will take http request body and attach it
+//to the request object automatticly for us
+app.use(require("body-parser")());
+
+//Configuring the app to use the right templeting engine
+const handlebars = require("express-handlebars").create({
+  defaultLayout: "main"
+});
+
+app.engine("handlebars", handlebars.engine);
+app.set("views", path.join(__dirname, "views")); //where are the views?
+app.set("view engine", "handlebars");
+```
+
+* Then we need a port and a beginning route.
+
+```js
+//index.js
+app.set("port", process.env.PORT || 3000);
+
+app.get("/", (req, res) => {
+  res.render("index");
+});
+```
+
+* and finally call `listen` on our app to get it going
+* the second argument is a callback, that express will invoke when it's started,
+* for us it just outputs the port how to stop it.
+
+```js
+app.listen(app.get("port"), () => {
+  console.log(
+    "Express started on http://localhost:" + app.get("port") + "; press Ctrl-C to terminate."
+  );
+});
+```
+
 # Adding sqlite3
 
 * `npm install sqlite3`
