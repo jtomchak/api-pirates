@@ -209,19 +209,19 @@ var User = sequelize.define(
 
 ```js
 const passport = require("passport");
-const FacebookStrategy = require("passport-facebook").Strategy;
+const FacebookStrategy = require("passport-github").Strategy;
 ```
 
-2.  Go to Facebook and get an ID and Secret, Don't share these with anyone. See LMS for instructions on this one.
+2.  Go to Github and get an ID and Secret, Don't share these with anyone.
 
-3.  Create fb.js file and put this in....this is in the root of the project.
+3.  Create gh.js file and put this in....this is in the root of the project.
 
 ```js
-// facebook app settings - fb.js
+// facebook app settings - gh.js
 module.exports = {
-  appID: "YOURID",
-  appSecret: "YOURSECRET",
-  callbackUrl: "http://localhost:3000/login/facebook/callback"
+  clientID: "YOURID",
+  clientSecret: "YOURSECRET",
+  callbackUrl: "http://localhost:3000/login/github/callback"
 };
 ```
 
