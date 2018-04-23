@@ -1,4 +1,4 @@
-# Getting Started Part 1 - [BRANCH](https://github.com/jtomchak/api-pirates/tree/http-request-POST)
+# Part 1 - Getting Started  - [BRANCH](https://github.com/jtomchak/api-pirates/tree/http-request-POST)
 
 * Create an empty project folder `api-pirates` and make sure to in that directory
 * Then `npm init -y`
