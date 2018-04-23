@@ -7,13 +7,21 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jtomchak/api-pirates.git"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jtomchak/api-pirates/issues"
+  },
+  "homepage": "https://github.com/jtomchak/api-pirates#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
-    "express": "^4.16.2",
+    "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
-    "nodemon": "^1.14.10"
+    "nodemon": "^1.17.3"
   }
 }
