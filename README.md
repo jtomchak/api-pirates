@@ -62,7 +62,7 @@ app.listen(app.get("port"), () => {
   },
 ```
 
-# Let's add routes so we can render more view dynamicmly [BRANCH](https://github.com/jtomchak/api-pirates/tree/template-dynamic)
+# Part 2 - Let's add routes so we can render more view dynamicmly [BRANCH](https://github.com/jtomchak/api-pirates/tree/template-dynamic)
 
 ```js
 //index.js
