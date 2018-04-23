@@ -1,7 +1,13 @@
 const path = require("path");
 const express = require("express");
+const sqlite = require("sqlite3").verbose();
 
 const app = express(); //init our express app
+
+const db = new sqlite.Database("./deadSeas.sqlite", err => {
+  if (err) console.error(err);
+  console.log("Connected to ye pirates Data!!!!!");
+});
 
 //body-parser will take http request body and attach it
 //to the request object automatticly for us
@@ -20,7 +26,15 @@ app.set("port", process.env.PORT || 3000);
 
 //Routing Town!!!
 app.get("/", (req, res) => {
-  res.render("index"); //render the file in views named 'index'
+  const query = `SELECT * FROM Pirate`;
+
+  db.all(query, [], (err, rows) => {
+    if (err) {
+      res.status("500");
+      res.send(err.message);
+    }
+    res.send(rows);
+  });
 });
 
 app.post("/", (req, res) => {
