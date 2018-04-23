@@ -85,7 +85,7 @@ app.post("/pirate", (req, res) => {
   and get 'Thanks' back.
 * Add a json object to the body of the POST and we'll see that consoled out we the POST request is made.
 
-# Adding sqlite3 [BRANCH](https://github.com/jtomchak/api-pirates/tree/sqlite-in-express)
+# Part 3 - Adding sqlite3 [BRANCH](https://github.com/jtomchak/api-pirates/tree/sqlite-in-express)
 
 * `npm install sqlite3`
 * Add your Pirates DB to the project! But first a package to install !!!
@@ -110,11 +110,15 @@ const db = new sqlite.Database("./deadSeas.sqlite", err => {
 
 ```js
 //Let's run a query to confirm
-const query = `SELECT * from Pirates`;
-db.each(query, (err, row) => {
-  if (err) throw err;
-  console.log(row);
-});
+const query = `SELECT * FROM Pirate`;
+
+  db.all(query, [], (err, rows) => {
+    if (err) {
+      res.status("500");
+      res.send(err.message);
+    }
+    res.send(rows);
+  });
 ```
 
 # Add Sequilize [BRANCH](https://github.com/jtomchak/api-pirates/tree/sequilize)
