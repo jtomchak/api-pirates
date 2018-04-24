@@ -1,12 +1,18 @@
 const path = require("path");
 const express = require("express");
 const models = require("./models");
+const bodyParser = require("body-parser");
 
 const app = express(); //init our express app
 
 //body-parser will take http request body and attach it
 //to the request object automatticly for us
-app.use(require("body-parser")());
+// Put these statements before you define any routes.
+// support parsing of application/json type post data
+app.use(bodyParser.json());
+
+//support parsing of application/x-www-form-urlencoded post data
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Configuring the app to use the right templeting engine
 const handlebars = require("express-handlebars").create({
@@ -15,6 +21,7 @@ const handlebars = require("express-handlebars").create({
 
 app.engine("handlebars", handlebars.engine);
 app.set("views", path.join(__dirname, "views")); //where are the views?
+app.use(express.static(path.join(__dirname, "/public")));
 app.set("view engine", "handlebars");
 
 app.set("port", process.env.PORT || 3000);
@@ -28,7 +35,7 @@ app.post("/", (req, res) => {
   console.log(req.body);
   //take req.body and save it to the database!
   //then return saved object with status 201
-  res.send({ name: req.body.name });
+  res.send({ name: req.body });
 });
 
 app.get("/pirate", (req, res) => {
