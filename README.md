@@ -134,6 +134,11 @@ node_modules/.bin/sequelize init
 
 node_modules/.bin/sequelize model:create --name Pirate --attributes family_name:String
 ```
+* we want to add the rest of the pirates here with a migartion
+
+```sh
+node_modules/.bin/sequelize migration:generate --name pirate-additions
+```
 
 ## Your Pirates model should be something like....
 
