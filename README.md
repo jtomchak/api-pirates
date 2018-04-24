@@ -236,15 +236,16 @@ module.exports = (sequelize, DataTypes) => {
 };
 ```
 
-## Don't forget to update your config.js file!!!!
-
+## Now we can hook up our app to sequelize and our models
 ```js
-// .sequelizerc
-const path = require("path");
-
-module.exports = {
-  config: path.resolve("config", "config.js")
-};
+//indjex.js
+models.sequelize.sync().then(function() {
+  app.listen(app.get("port"), () => {
+    console.log(
+      "Express started on http://localhost:" + app.get("port") + "; press Ctrl-C to terminate."
+    );
+  });
+});
 ```
 
 # Auth [BRANCH](https://github.com/jtomchak/api-pirates/tree/passport-local)
