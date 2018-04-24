@@ -1,6 +1,5 @@
 const path = require("path");
 const express = require("express");
-const Sequelize = require("sequelize");
 const models = require("./models");
 
 const app = express(); //init our express app
@@ -43,7 +42,6 @@ app.post("/pirate", (req, res) => {
 });
 
 //Finally setting the app to listen gets it going
-//Connect to your DB
 // sync() will create all table if they doesn't exist in database
 models.sequelize.sync().then(function() {
   app.listen(app.get("port"), () => {

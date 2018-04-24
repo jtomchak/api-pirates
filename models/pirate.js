@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       family_name: DataTypes.STRING,
       rank: DataTypes.INTEGER,
-      beard: DataTypes.STRING,
+      beard: DataTypes.INTEGER,
       nick_name: DataTypes.STRING,
       birth_country: DataTypes.STRING,
       worth: DataTypes.INTEGER,
