@@ -1,13 +1,9 @@
 const path = require("path");
 const express = require("express");
-const sqlite = require("sqlite3").verbose();
+const Sequelize = require("sequelize");
+const models = require("./models");
 
 const app = express(); //init our express app
-
-const db = new sqlite.Database("./deadSeas.sqlite", err => {
-  if (err) console.error(err);
-  console.log("Connected to ye pirates Data!!!!!");
-});
 
 //body-parser will take http request body and attach it
 //to the request object automatticly for us
@@ -27,14 +23,6 @@ app.set("port", process.env.PORT || 3000);
 //Routing Town!!!
 app.get("/", (req, res) => {
   const query = `SELECT * FROM Pirates`;
-
-  db.all(query, [], (err, rows) => {
-    if (err) {
-      res.status("500");
-      res.send(err.message);
-    }
-    res.render("pirates", { pirates: rows });
-  });
 });
 
 app.post("/", (req, res) => {
@@ -55,8 +43,12 @@ app.post("/pirate", (req, res) => {
 });
 
 //Finally setting the app to listen gets it going
-app.listen(app.get("port"), () => {
-  console.log(
-    "Express started on http://localhost:" + app.get("port") + "; press Ctrl-C to terminate."
-  );
+//Connect to your DB
+// sync() will create all table if they doesn't exist in database
+models.sequelize.sync().then(function() {
+  app.listen(app.get("port"), () => {
+    console.log(
+      "Express started on http://localhost:" + app.get("port") + "; press Ctrl-C to terminate."
+    );
+  });
 });
