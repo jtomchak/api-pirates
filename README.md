@@ -126,6 +126,8 @@ const query = `SELECT * FROM Pirate`;
 [Example Link](https://github.com/sequelize/express-example)
 [Working Example](https://github.com/jtomchak/api-pirates/blob/sequilize/index.js)
 
+`npm install sequelize sequelize-cli`
+
 ```sh
 node_modules/.bin/sequelize init
 ```
