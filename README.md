@@ -128,9 +128,6 @@ const query = `SELECT * FROM Pirate`;
 
 `npm install sequelize sequelize-cli`
 
-```sh
-node_modules/.bin/sequelize init
-```
 
 ```sh
 node_modules/.bin/sequelize init
