@@ -26,14 +26,14 @@ app.set("port", process.env.PORT || 3000);
 
 //Routing Town!!!
 app.get("/", (req, res) => {
-  const query = `SELECT * FROM Pirate`;
+  const query = `SELECT * FROM Pirates`;
 
   db.all(query, [], (err, rows) => {
     if (err) {
       res.status("500");
       res.send(err.message);
     }
-    res.send(rows);
+    res.render("pirates", { pirates: rows });
   });
 });
 
@@ -44,13 +44,14 @@ app.post("/", (req, res) => {
   res.send({ name: req.body.name });
 });
 
-//at localhost:3000/about
-app.get("/about", (req, res) => {
-  res.render("about"); //render the file in views named 'about'
+app.get("/pirate", (req, res) => {
+  res.render("pirate-form");
 });
 
-app.get("/treasure", (req, res) => {
-  res.render("treasure");
+app.post("/pirate", (req, res) => {
+  console.log(req.body);
+  //insert into the DB
+  res.send(req.body);
 });
 
 //Finally setting the app to listen gets it going

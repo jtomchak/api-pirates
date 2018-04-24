@@ -23,6 +23,8 @@
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "nodemon": "^1.17.3",
+    "sequelize": "^4.37.6",
+    "sequelize-cli": "^4.0.0",
     "sqlite3": "^4.0.0"
   }
 }
