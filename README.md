@@ -201,6 +201,8 @@ module.exports = {
   }
 };
 ```
+* **NOW** you can run the migration, that will add these columns to the database. `node_modules/.bin/sequelize db:migrate`
+
 ## Your Pirates model should be something like....
 
 ```js
