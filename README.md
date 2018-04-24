@@ -257,6 +257,19 @@ app.post("/pirate", (req, res) => {
     models.Pirate.create(req.body)
 ```
 
+## And query all of our Pirates
+* 
+```js
+models.Pirate.findAll()
+    .then(data => {
+      res.render("pirates", { pirates: data });
+    })
+    .catch(err => {
+      res.status("409");
+      res.send(err.message);
+    });
+```
+
 # Auth [BRANCH](https://github.com/jtomchak/api-pirates/tree/passport-local)
 
 `npm install express-session passport passport-github cookie-parser morgan`
