@@ -248,6 +248,15 @@ models.sequelize.sync().then(function() {
 });
 ```
 
+## Instert into DB with sequelize
+*Creating new instances of our model and inserting into the DB
+```js
+//index.js
+app.post("/pirate", (req, res) => {
+  if (req.body.family_name !== "") {
+    models.Pirate.create(req.body)
+```
+
 # Auth [BRANCH](https://github.com/jtomchak/api-pirates/tree/passport-local)
 
 `npm install express-session passport passport-github cookie-parser morgan`
