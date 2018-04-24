@@ -137,11 +137,7 @@ node_modules/.bin/sequelize model:create --name Pirate --attributes family_name:
 `npm install sequelize` **AND** `npm install sequelize-cli -g`
 * Then for all the commands leave off the path so it would be `sequelize init`
 
-* we want to add the rest of the pirates here with a migartion
 
-```sh
-node_modules/.bin/sequelize migration:generate --name pirate-additions
-```
 ## Remove the config.json
  * and in the `/model/index.js` update the config to point to the js file
 ```js
@@ -163,6 +159,11 @@ module.exports = {
     dialect: "mysql"
   }
 };
+```
+* we want to add the rest of the pirates here with a migartion
+
+```sh
+node_modules/.bin/sequelize migration:generate --name pirate-additions
 ```
 ## Your Pirates model should be something like....
 
