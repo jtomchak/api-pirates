@@ -128,12 +128,15 @@ const query = `SELECT * FROM Pirate`;
 
 `npm install sequelize sequelize-cli`
 
-
 ```sh
 node_modules/.bin/sequelize init
 
 node_modules/.bin/sequelize model:create --name Pirate --attributes family_name:String
 ```
+#### For windows
+`npm install sequelize` **AND** `npm install sequelize-cli -g`
+* Then for all the commands leave off the path so it would be `sequelize init`
+
 * we want to add the rest of the pirates here with a migartion
 
 ```sh
