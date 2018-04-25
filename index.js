@@ -7,21 +7,20 @@ const bodyParser = require("body-parser");
 
 const app = express(); //init our express app
 
-//Configs passport
-app.use(passport.initialize());
-app.use(passport.session());
-
-const initPassport = require("./passport/init");
-initPassport(passport);
-
 //body-parser will take http request body and attach it
 //to the request object automatticly for us
 // Put these statements before you define any routes.
 // support parsing of application/json type post data
 app.use(require("morgan")("combined")); //logging
 app.use(require("cookie-parser")()); //like body-parse, but for cookies
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 app.use(require("express-session")({ secret: "bananaPants", name: "Pirate-cookie-monster" }));
+//Configs passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+const initPassport = require("./passport/init");
+initPassport(passport);
 
 //support parsing of application/x-www-form-urlencoded post data
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -92,6 +91,8 @@ app.post("/pirate", (req, res) => {
 app.get("/login", function(req, res) {
   res.render("login");
 });
+
+app.get("/users", (req, res) => res.render("users"));
 
 app.get("/profile", function(req, res) {
   res.render("profile", { user: req.user });
