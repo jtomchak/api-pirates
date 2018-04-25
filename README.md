@@ -331,6 +331,7 @@ var User = sequelize.define(
 ```
 
 ```js
+//index.js
 const passport = require("passport");
 const FacebookStrategy = require("passport-github").Strategy;
 ```
@@ -387,9 +388,9 @@ module.exports = function(passport) {
 
 ```js
 //passport/gihub.js
-var FacebookStrategy = require("passport-facebook").Strategy;
+var GithubStrategy = require("passport-github").Strategy;
 var models = require("../models");
-var fbConfig = require("../fb.js");
+var ghConfig = require("../gh.js");
 
 passport.use(
   "github",
