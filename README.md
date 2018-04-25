@@ -274,8 +274,37 @@ models.Pirate.findAll()
 
 `npm install express-session passport passport-github cookie-parser morgan`
 
-1.  Create a User model using `node_modules/.bin/sequelize model:create --name User --attributes name:String` the other properties are to be like so
-
+1.  Create a User model using 
+```sh
+node_modules/.bin/sequelize model:create --name User --attributes name:String
+``` 
+* then run the migration to impliment the changes
+```sh
+ node_modules/.bin/sequelize db:migrate
+```
+then create a new migration to add the rest of our User properties
+```sh
+ node_modules/.bin/sequelize create:migration --name user-attributes
+```
+```js
+//migrations/3242353453245-user-attributes
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    return [
+      queryInterface.addColumn("Users", "email", Sequelize.STRING, {
+        allowNull: false
+      }),
+      queryInterface.addColumn("Users", "role", Sequelize.STRING, {
+        allowNull: false
+      }),
+      queryInterface.addColumn("Users", "github_auth_id", Sequelize.INTEGER, {
+        allowNull: false
+      })
+    ];
+  }
+```
+* Cool. Then run the migration like before, and check our SQLite DB and see that you have a Users Tables and that table has all the columns that we made. 
+* Lastly update the user's model to match. 
 ```js
 //models/User.js
 var User = sequelize.define(
