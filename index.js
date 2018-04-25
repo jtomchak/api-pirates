@@ -28,7 +28,14 @@ app.set("port", process.env.PORT || 3000);
 
 //Routing Town!!!
 app.get("/", (req, res) => {
-  const query = `SELECT * FROM Pirates`;
+  models.Pirate.findAll({ order: [["updatedAt", "DESC"]] })
+    .then(data => {
+      res.render("pirates", { pirates: data });
+    })
+    .catch(err => {
+      res.status("409");
+      res.send(err.message);
+    });
 });
 
 app.post("/", (req, res) => {
@@ -43,9 +50,20 @@ app.get("/pirate", (req, res) => {
 });
 
 app.post("/pirate", (req, res) => {
-  console.log(req.body);
-  //insert into the DB
-  res.send(req.body);
+  if (req.body.family_name !== "") {
+    models.Pirate.create(req.body)
+      .then(data => {
+        // res.send(data);
+        res.redirect("/");
+      })
+      .catch(err => {
+        res.status("409");
+        res.send(err.message);
+      });
+    //insert into the DB
+  } else {
+    res.sendStatus("400");
+  }
 });
 
 //Finally setting the app to listen gets it going
