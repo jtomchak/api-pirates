@@ -284,7 +284,7 @@ node_modules/.bin/sequelize model:create --name User --attributes name:String
 ```
 then create a new migration to add the rest of our User properties
 ```sh
- node_modules/.bin/sequelize create:migration --name user-attributes
+ node_modules/.bin/sequelize migration:generate --name user-attributes
 ```
 ```js
 //migrations/3242353453245-user-attributes
