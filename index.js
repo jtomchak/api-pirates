@@ -2,31 +2,31 @@ const path = require("path");
 const express = require("express");
 const models = require("./models");
 const passport = require("passport");
+const GithubStrategy = require("passport-github").Strategy;
 const bodyParser = require("body-parser");
 
 const app = express(); //init our express app
 
-// Use application-level middleware for common functionality, including
-// logging, parsing, and session handling.
-app.use(require("morgan")("combined"));
-app.use(require("body-parser").urlencoded({ extended: true }));
-app.use(
-  require("express-session")({
-    secret: "keyboard-sdfsdf-cat",
-    name: "pirate_super_cookie_monster"
-  })
-);
-app.use(require("cookie-parser")());
-
-// Configuring Passport
+//Configs passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Initialize Passport
-var initPassport = require("./passport/init");
+const initPassport = require("./passport/init");
 initPassport(passport);
 
-app.use(require("body-parser")());
+//body-parser will take http request body and attach it
+//to the request object automatticly for us
+// Put these statements before you define any routes.
+// support parsing of application/json type post data
+app.use(require("morgan")("combined")); //logging
+app.use(require("cookie-parser")()); //like body-parse, but for cookies
+app.use(bodyParser.json());
+app.use(require("express-session")({ secret: "bananaPants", name: "Pirate-cookie-monster" }));
+
+//support parsing of application/x-www-form-urlencoded post data
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser());
+
 //Configuring the app to use the right templeting engine
 const handlebars = require("express-handlebars").create({
   defaultLayout: "main"
